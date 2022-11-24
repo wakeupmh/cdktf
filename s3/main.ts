@@ -13,6 +13,23 @@ class S3Stack extends TerraformStack {
     new s3Bucket.S3Bucket(this, "my-first-bkt", {
       bucket: "my-first-bkt",
       acl: "private",
+      lifecycleRule: [{
+        enabled: true,
+        transition: [
+          {
+            days: 30,
+            storageClass: "GLACIER_IR"
+          },
+          {
+            days: 60,
+            storageClass: "GLACIER"
+          },
+          {
+            days: 90,
+            storageClass: "DEEP_ARCHIVE"
+          }
+        ],
+      }]
     });
     
   }
